@@ -5,11 +5,9 @@ public class examen {
 	private int codigo;
 	
 	public examen(){
+		this.codigo = 4444;
 	}
-	public examen(String nombre){
-		this.nombre = nombre;
-		this.codigo = 333;
-	}
+	
 	public String getNombre() {
 		return nombre;
 	}

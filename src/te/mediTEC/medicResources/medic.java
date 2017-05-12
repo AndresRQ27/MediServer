@@ -5,11 +5,10 @@ public class medic {
 	private int codigo;
 	
 	public medic(){
+		this.codigo = 5555;
 	}
-	public medic(String nombre){
-		this.nombre = nombre;
-		this.codigo= 000;
-	}
+	
+	
 	public String getNombre() {
 		return nombre;
 	}

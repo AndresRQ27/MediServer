@@ -10,16 +10,14 @@ public class Doctor {
 	private String correo;
 	private int codigo;
 	private int calificación = 5;
-	private static List<cita> citas = new ArrayList<>() ;
+	private static List<cita> citas;
 	
 	public Doctor(){
-	}
-	
-	public Doctor(String nombre, String correo) {
-		this.nombre = nombre;
-		this.correo = correo;
 		this.codigo = 111;
+		this.calificación = 0;
+		citas = new ArrayList<>();
 	}
+
 
 	public List<cita> getCitas() {
 		return citas;

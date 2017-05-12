@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class cita {
+	private String paciente;
+	private String doctor;
+	private int codigo;
+	private int cosTotal = 0;
+	private boolean finalizado = false;
 	private static List<String> sintomas;
 	private static List<casoClinico> casosClinicos;
 	private static List<examen> examenes;
 	private static List<medic> medicamentos;
-	private String paciente;
-	private String doctor;
-	private int cosTotal = 0;
-	private int codigo;
-	private boolean finalizado = false;
 	
 	public cita(){
 	}

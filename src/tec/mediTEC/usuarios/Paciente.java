@@ -1,18 +1,14 @@
 package tec.mediTEC.usuarios;
 
 public class Paciente {
-	private int codigo;
 	private String nombre;
 	private String correo;
+	private int codigo;
 	
-	public Paciente(){		
+	public Paciente(){
+		this.codigo = 2222;
 	}
 	
-	public Paciente(String nombre,String correo){
-		this.nombre = nombre;
-		this.correo = correo;
-		this.codigo = 666;
-	}
 
 	public int getCodigo() {
 		return codigo;
