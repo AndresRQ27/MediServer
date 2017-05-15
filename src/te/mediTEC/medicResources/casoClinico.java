@@ -9,13 +9,9 @@ public class casoClinico {
 	private static List<medic> medicamentos;
 	
 	public casoClinico(){
+		this.codigo = 999;
 	}
 	
-	public casoClinico(String nombre,List<examen> examenes, List<medic> medicamentos){
-		this.nombre = nombre;
-		examenes = examenes;
-		medicamentos = medicamentos;
-	}
 
 	public String getNombre() {
 		return nombre;

@@ -15,14 +15,12 @@ public class cita {
 	private static List<medic> medicamentos;
 	
 	public cita(){
+		this.codigo = 555;
+		casosClinicos = new ArrayList<>();
+		examenes = new ArrayList<>();
+		medicamentos = new ArrayList<>();
 	}
 
-	public cita(String paciente,String doctor, ArrayList<String> sintomas) {
-		paciente = paciente;
-		sintomas = sintomas;
-		doctor = doctor;
-		codigo  = 222;
-	}
 
 	public String getDoctor() {
 		return doctor;
