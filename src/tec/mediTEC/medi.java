@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import te.mediTEC.medicResources.medic;
+import tec.mediTEC.medicResources.medic;
 
 @Path("/Medicamento")
 public class medi {

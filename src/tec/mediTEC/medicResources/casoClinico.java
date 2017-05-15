@@ -1,4 +1,4 @@
-package te.mediTEC.medicResources;
+package tec.mediTEC.medicResources;
 
 import java.util.List;
 

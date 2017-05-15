@@ -3,7 +3,7 @@ package tec.mediTEC.usuarios;
 import java.util.ArrayList;
 import java.util.List;
 
-import te.mediTEC.medicResources.cita;
+import tec.mediTEC.medicResources.cita;
 
 public class Doctor {
 	private String nombre;
