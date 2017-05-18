@@ -1,12 +1,18 @@
 package tec.mediTEC.usuarios;
 
-public class Paciente {
+
+public class Paciente extends Registro{
 	private String nombre;
 	private String correo;
 	private int codigo;
 	
 	public Paciente(){
-		this.codigo = 2222;
+		this.codigo = super.numRandom();
+		try{
+			super.codigoQR(this.codigo);
+		}catch(Exception e){
+			System.out.print(e);
+		}		
 	}
 	
 

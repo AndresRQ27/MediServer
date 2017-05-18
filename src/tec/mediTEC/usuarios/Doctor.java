@@ -5,7 +5,7 @@ import java.util.List;
 
 import tec.mediTEC.medicResources.cita;
 
-public class Doctor {
+public class Doctor extends Registro{
 	private String nombre;
 	private String correo;
 	private int codigo;
@@ -13,9 +13,14 @@ public class Doctor {
 	private static List<cita> citas;
 	
 	public Doctor(){
-		this.codigo = 111;
+		this.codigo = super.numRandom();
 		this.calificación = 0;
 		citas = new ArrayList<>();
+		try{
+			super.codigoQR(this.codigo);
+		}catch(Exception e){
+			System.out.print(e);
+		}
 	}
 
 

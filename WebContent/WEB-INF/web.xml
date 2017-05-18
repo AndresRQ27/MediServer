@@ -12,6 +12,7 @@
 			<param-name>jersey.config.server.provider.classnames</param-name>
 			<param-value>org.glassfish.jersey.jackson.JacksonFeature</param-value>
 		</init-param>
+		<enabled>true</enabled>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Mi Servlet</servlet-name>

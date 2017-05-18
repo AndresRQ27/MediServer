@@ -37,6 +37,7 @@ public class Doc {
 		if (nuevo == null){
 			return Response.noContent().build();
 		}else{
+			nuevo.enviarCorreo(nuevo.getCorreo());
 			doctores.add(nuevo);
 			return Response.ok().build();
 		}

@@ -37,6 +37,7 @@ public class Pac {
 		if(nuevo == null){
 			return Response.noContent().build();
 		}else{
+			nuevo.enviarCorreo(nuevo.getCorreo());
 			pacientes.add(nuevo);
 			return Response.ok().build();
 		}
