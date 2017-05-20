@@ -70,6 +70,17 @@ public class Pac {
 		
 	}
 	
+	@PUT
+	@Path("/verificaion")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void habilitar(int id){
+		Paciente pcite = this.findPaciente(id);
+		if (pcite != null){
+			pcite.setHabilitado(true);
+		}
+		
+	}
+	
 	private Paciente findPaciente(int id){
 		for(Paciente i : pacientes){
 			if(i.getCodigo() == id){

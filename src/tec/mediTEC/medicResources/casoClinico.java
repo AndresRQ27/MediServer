@@ -2,14 +2,16 @@ package tec.mediTEC.medicResources;
 
 import java.util.List;
 
-public class casoClinico {
+import tec.mediTEC.usuarios.Registro;
+
+public class casoClinico extends Registro{
 	private String nombre;
 	private int codigo;
 	private static List<examen> examenes;
 	private static List<medic> medicamentos;
 	
 	public casoClinico(){
-		this.codigo = 999;
+		this.codigo = super.numRandom();
 	}
 	
 

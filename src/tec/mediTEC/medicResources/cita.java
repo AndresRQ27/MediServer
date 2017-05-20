@@ -3,7 +3,9 @@ package tec.mediTEC.medicResources;
 import java.util.ArrayList;
 import java.util.List;
 
-public class cita {
+import tec.mediTEC.usuarios.Registro;
+
+public class cita extends Registro{
 	private String paciente;
 	private String doctor;
 	private int codigo;
@@ -15,7 +17,7 @@ public class cita {
 	private static List<medic> medicamentos;
 	
 	public cita(){
-		this.codigo = 555;
+		this.codigo = super.numRandom();
 		casosClinicos = new ArrayList<>();
 		examenes = new ArrayList<>();
 		medicamentos = new ArrayList<>();

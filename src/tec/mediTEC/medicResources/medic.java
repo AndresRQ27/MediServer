@@ -1,12 +1,14 @@
 package tec.mediTEC.medicResources;
 
-public class medic {
+import tec.mediTEC.usuarios.Registro;
+
+public class medic extends Registro{
 	private String nombre;
 	private int codigo;
 	private int costo;
 	
 	public medic(){
-		this.codigo = 5555;
+		this.codigo = super.numRandom();
 	}
 	
 	
