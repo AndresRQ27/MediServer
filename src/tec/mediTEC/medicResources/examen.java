@@ -3,6 +3,7 @@ package tec.mediTEC.medicResources;
 public class examen {
 	private String nombre;
 	private int codigo;
+	private int costo;
 	
 	public examen(){
 		this.codigo = 4444;

@@ -10,12 +10,12 @@ public class Doctor extends Registro{
 	private String correo;
 	private int codigo;
 	private int calificación = 5;
-	private static List<cita> citas;
+	private static List<cita> citas;//acá va a un árbol
 	
 	public Doctor(){
 		this.codigo = super.numRandom();
 		this.calificación = 0;
-		citas = new ArrayList<>();
+		citas = new ArrayList<>();//árbol
 		try{
 			super.codigoQR(this.codigo);
 		}catch(Exception e){

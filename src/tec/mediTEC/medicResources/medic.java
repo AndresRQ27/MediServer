@@ -3,6 +3,7 @@ package tec.mediTEC.medicResources;
 public class medic {
 	private String nombre;
 	private int codigo;
+	private int costo;
 	
 	public medic(){
 		this.codigo = 5555;
