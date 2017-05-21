@@ -1,5 +1,6 @@
 package tec.mediTEC.medicResources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tec.mediTEC.usuarios.Registro;
@@ -12,6 +13,8 @@ public class casoClinico extends Registro{
 	
 	public casoClinico(){
 		this.codigo = super.numRandom();
+		examenes = new ArrayList<>();
+		medicamentos = new ArrayList<>();
 	}
 	
 

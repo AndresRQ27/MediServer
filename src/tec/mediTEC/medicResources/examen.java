@@ -11,6 +11,15 @@ public class examen extends Registro{
 		this.codigo = super.numRandom();
 	}
 	
+	public int getCosto() {
+		return costo;
+	}
+
+	public void setCosto(int costo) {
+		this.costo = costo;
+	}
+
+	
 	public String getNombre() {
 		return nombre;
 	}
