@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -89,6 +90,15 @@ public class Doc {
 			doc.setCalificación(doc.getCalificación() + nueva);
 		}
 		
+	}
+	
+	@DELETE
+	@Path("{id}")
+	public void remove(@PathParam ("id") int id){
+		Doctor doc = this.findDoc(id);
+		if (doc != null){
+			doctores.remove(doc);
+		}
 	}
 	
 	private Doctor findDoc(int id){

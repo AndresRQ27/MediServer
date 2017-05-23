@@ -1,9 +1,7 @@
 package tec.mediTEC;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -17,11 +15,12 @@ import javax.xml.ws.http.HTTPException;
 import tec.mediTEC.medicResources.casoClinico;
 import tec.mediTEC.medicResources.examen;
 import tec.mediTEC.medicResources.medic;
+import tec.mediTEC.trees.BinaryTree;
 
 @Path("/CasosClinicos")
 public class casCli {
 	
-	private static List<casoClinico> casosClinicos = new ArrayList<>();
+	private static BinaryTree casosClinicos = new BinaryTree();
 	
 	public casCli(){
 	}
@@ -39,8 +38,8 @@ public class casCli {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public casoClinico getCaso(@PathParam("id") String id){
-		casoClinico caso = this.findCaso(id);
+	public casoClinico getCaso(@PathParam("id") int id){
+		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			return caso;
 		}else{
@@ -54,7 +53,7 @@ public class casCli {
 		if (nuevo == null){
 			return Response.noContent().build();
 		}else{
-			casosClinicos.add(nuevo);
+			casosClinicos.insert(nuevo);
 			return Response.ok().build();
 		}
 	}
@@ -62,8 +61,8 @@ public class casCli {
 	@POST
 	@Path("/examenes/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void newExamen(@PathParam("id") String id, examen nuevo){
-		casoClinico caso = this.findCaso(id);
+	public void newExamen(@PathParam("id") int id, examen nuevo){
+		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			caso.getExamenes().add(nuevo);
 		}
@@ -73,8 +72,8 @@ public class casCli {
 	@POST
 	@Path("/medicamentos/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void newMedicamento(@PathParam("id") String id, medic nuevo){
-		casoClinico caso = this.findCaso(id);
+	public void newMedicamento(@PathParam("id") int id, medic nuevo){
+		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			caso.getMedicamentos().add(nuevo);
 		}
@@ -84,24 +83,23 @@ public class casCli {
 	@PUT
 	@Path("/nombre/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateNombre(@PathParam("id") String id, String nombre){
-		casoClinico caso = findCaso(id);
+	public void updateNombre(@PathParam("id") int id, String nombre){
+		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			caso.setNombre(nombre);
 		}
 		
 	}
 	
-	
-	private casoClinico findCaso(String id){
-		for(casoClinico i : casosClinicos){
-			if(i.getNombre().equals(id)){
-				return i;
-			}else{
-				return null;
-			}
+	@DELETE
+	@Path("{id}")
+	public void remove(@PathParam("id") int id){
+		casoClinico caso = casosClinicos.search(id);
+		if(caso != null){
+			casosClinicos.remove(id);
 		}
-		return null;
+		
 	}
+
 
 }

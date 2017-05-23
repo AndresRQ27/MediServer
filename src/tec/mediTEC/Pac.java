@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -79,6 +80,15 @@ public class Pac {
 			pcite.setHabilitado(true);
 		}
 		
+	}
+	
+	@DELETE
+	@Path("{id}")
+	public void remove(@PathParam ("id") int id){
+		Paciente pcite = this.findPaciente(id);
+		if (pcite != null){
+			pacientes.remove(pcite);
+		}
 	}
 	
 	private Paciente findPaciente(int id){
