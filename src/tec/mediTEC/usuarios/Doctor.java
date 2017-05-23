@@ -9,7 +9,7 @@ public class Doctor extends Registro{
 	private String nombre;
 	private String correo;
 	private int codigo;
-	private int calificacion = 5;
+	private int calificacion;
 	private static List<cita> citas;//acá va a un árbol
 	
 	public Doctor(){
