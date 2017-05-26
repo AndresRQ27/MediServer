@@ -38,12 +38,12 @@ public class Pac {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Paciente getPaciente(@PathParam("id") int id){
+	public Response getPaciente(@PathParam("id") int id){
 		Paciente pcite = this.findPaciente(id);
 		if(pcite != null){
-			return pcite;
+			return Response.ok().entity(pcite).build();
 		}else{
-			throw new HTTPException(404);
+			return Response.noContent().build();
 		}
 		
 	}
@@ -56,17 +56,20 @@ public class Pac {
 		}else{
 			nuevo.enviarCorreo(nuevo.getCorreo());
 			pacientes.add(nuevo);
-			return Response.ok().build();
+			return Response.status(201).build();
 		}
 	}
 
 	@PUT
 	@Path("/correo/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateCorreo(@PathParam("id") int id, String nuevo){
+	public Response updateCorreo(@PathParam("id") int id, String nuevo){
 		Paciente pcite = this.findPaciente(id);
 		if(pcite != null && nuevo != null){
 			pcite.setCorreo(nuevo);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
@@ -74,20 +77,26 @@ public class Pac {
 	@PUT
 	@Path("/verificaion")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void habilitar(int id){
+	public Response habilitar(int id){
 		Paciente pcite = this.findPaciente(id);
 		if (pcite != null){
 			pcite.setHabilitado(true);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
 	
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam ("id") int id){
+	public Response remove(@PathParam ("id") int id){
 		Paciente pcite = this.findPaciente(id);
 		if (pcite != null){
 			pacientes.remove(pcite);
+			return Response.status(410).build();
+		}else{
+			return Response.noContent().build();
 		}
 	}
 	

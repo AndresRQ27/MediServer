@@ -39,12 +39,24 @@ public class Doc {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Doctor getDoctor(@PathParam("id") int id){
+	public Response getDoctor(@PathParam("id") int id){
 		Doctor doc = this.findDoc(id);
 		if (doc!= null){
-			return doc;
+			return Response.ok().entity(doc).build();
 		}else{
-			throw new HTTPException(404);
+			return Response.noContent().build();
+		}
+	}
+	
+	@GET
+	@Path("/citas/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCitas(@PathParam("id") int id){
+		Doctor doc = this.findDoc(id);
+		if (doc != null){
+			return Response.ok().entity(doc.getCitas()).build();
+		}else{
+			return Response.noContent().build();
 		}
 	}
 
@@ -56,27 +68,33 @@ public class Doc {
 		}else{
 			nuevo.enviarCorreo(nuevo.getCorreo());
 			doctores.add(nuevo);
-			return Response.ok().build();
+			return Response.status(201).build();
 		}
 	}
 	
 	@POST
 	@Path("/citas/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void newCita(@PathParam("id") int id, cita nueva){
+	public Response newCita(@PathParam("id") int id, cita nueva){
 		Doctor doc = this.findDoc(id);
 		if (doc != null){
-			doc.getCitas().add(nueva);
-		}		
+			doc.getCitas().insert(nueva);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
+		}
 	}
 
 	@PUT
 	@Path("/correo/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateCorreo(@PathParam("id") int id, String nuevo){
+	public Response updateCorreo(@PathParam("id") int id, String nuevo){
 		Doctor doc = this.findDoc(id);
 		if (doc != null && nuevo != null){
 			doc.setCorreo(nuevo);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
@@ -84,20 +102,26 @@ public class Doc {
 	@PUT
 	@Path("/calificacion/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateCalificacion(@PathParam("id") int id, int nueva){
+	public Response updateCalificacion(@PathParam("id") int id, int nueva){
 		Doctor doc = this.findDoc(id);
 		if(doc != null){
-			doc.setCalificación(doc.getCalificación() + nueva);
+			doc.setCalificacion(doc.getCalificacion() + nueva);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
 	
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam ("id") int id){
+	public Response remove(@PathParam ("id") int id){
 		Doctor doc = this.findDoc(id);
 		if (doc != null){
 			doctores.remove(doc);
+			return Response.status(410).build();
+		}else{
+			return Response.noContent().build();
 		}
 	}
 	

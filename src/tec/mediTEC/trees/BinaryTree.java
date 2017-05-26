@@ -97,29 +97,29 @@ public class BinaryTree {
 		return node;
 	}
 	
-/*	//métodos para probar el arbol
+	//métodos para probar el arbol
 	public void inOrden(Node<casoClinico> n){
 		if (n != null){
-			inOrden (n.left);
-			System.out.println(n.element + ", ");
-			inOrden(n.right);
+			inOrden (n.getLeft());
+			System.out.println(n.getElement() + ", ");
+			inOrden(n.getRight());
 		}
 	}
 	//Método para recorrer el árbol PreOrden
 	public void preOrden(Node<Integer> n){
 		if (n != null){
-			System.out.println(n.element + ", ");
-			preOrden (n.left);
-			preOrden (n.right);
+			System.out.println(n.getElement() + ", ");
+			preOrden (n.getLeft());
+			preOrden (n.getRight());
 		}
 	}
 	//Método para recorrer el árbol PostOrden
 	public void postOrden(Node<Integer> n){
 		if (n != null){
-			postOrden(n.left);
-			postOrden(n.right);
-			System.out.println(n.element + ", ");
+			postOrden(n.getLeft());
+			postOrden(n.getRight());
+			System.out.println(n.getElement() + ", ");
 		}
-	}*/
+	}
 }
 

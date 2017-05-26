@@ -7,7 +7,6 @@ import tec.mediTEC.usuarios.Registro;
 
 public class cita extends Registro{
 	private String paciente;
-	private String doctor;
 	private int codigo;
 	private int cosTotal = 0;
 	private boolean finalizado = false;
@@ -21,15 +20,6 @@ public class cita extends Registro{
 		casosClinicos = new ArrayList<>();
 		examenes = new ArrayList<>();
 		medicamentos = new ArrayList<>();
-	}
-
-
-	public String getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(String doctor) {
-		this.doctor = doctor;
 	}
 
 	public String getPaciente() {

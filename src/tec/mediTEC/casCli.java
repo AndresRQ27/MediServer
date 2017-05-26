@@ -10,7 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.ws.http.HTTPException;
 
 import tec.mediTEC.medicResources.casoClinico;
 import tec.mediTEC.medicResources.examen;
@@ -31,6 +30,7 @@ public class casCli {
 		if(casosClinicos.isEmpty()){
 			return  Response.noContent().build();
 		}else{
+			
 			return Response.ok().entity(casosClinicos).build();
 		}
 	}
@@ -38,12 +38,12 @@ public class casCli {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public casoClinico getCaso(@PathParam("id") int id){
+	public Response getCaso(@PathParam("id") int id){
 		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
-			return caso;
+			return Response.ok().entity(caso).build();
 		}else{
-			throw new HTTPException(404);
+			return Response.noContent().build();
 		}
 	}
 	
@@ -54,17 +54,20 @@ public class casCli {
 			return Response.noContent().build();
 		}else{
 			casosClinicos.insert(nuevo);
-			return Response.ok().build();
+			return Response.status(201).build();
 		}
 	}
 	
 	@POST
 	@Path("/examenes/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void newExamen(@PathParam("id") int id, examen nuevo){
+	public Response newExamen(@PathParam("id") int id, examen nuevo){
 		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			caso.getExamenes().add(nuevo);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
@@ -72,10 +75,13 @@ public class casCli {
 	@POST
 	@Path("/medicamentos/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void newMedicamento(@PathParam("id") int id, medic nuevo){
+	public Response newMedicamento(@PathParam("id") int id, medic nuevo){
 		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			caso.getMedicamentos().add(nuevo);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
@@ -83,20 +89,26 @@ public class casCli {
 	@PUT
 	@Path("/nombre/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateNombre(@PathParam("id") int id, String nombre){
+	public Response updateNombre(@PathParam("id") int id, String nombre){
 		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			caso.setNombre(nombre);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
 	
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam("id") int id){
+	public Response remove(@PathParam("id") int id){
 		casoClinico caso = casosClinicos.search(id);
 		if(caso != null){
 			casosClinicos.remove(id);
+			return Response.status(410).build();
+		}else{
+			return Response.noContent().build();
 		}
 		
 	}
