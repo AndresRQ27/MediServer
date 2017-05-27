@@ -1,7 +1,6 @@
 package tec.mediTEC.trees;
 
 public class Node<T> {
-	//CasoClínico caso;
 	private T element;
 	private int balanceF;
 	private Node<T> left;

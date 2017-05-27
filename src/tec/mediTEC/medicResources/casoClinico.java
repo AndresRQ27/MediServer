@@ -5,11 +5,17 @@ import java.util.List;
 
 import tec.mediTEC.usuarios.Registro;
 
-public class casoClinico extends Registro{
+public class casoClinico extends Registro implements Comparable<casoClinico>{
+
 	private String nombre;
 	private int codigo;
 	private static List<examen> examenes;
 	private static List<medic> medicamentos;
+	
+	@Override
+	public int compareTo(casoClinico o) {
+		return this.nombre.compareTo(o.getNombre());
+	}
 	
 	public casoClinico(){
 		this.codigo = super.numRandom();
@@ -17,6 +23,9 @@ public class casoClinico extends Registro{
 		medicamentos = new ArrayList<>();
 	}
 	
+	public casoClinico(String nombre){
+		this.nombre = nombre;
+	}
 
 	public String getNombre() {
 		return nombre;

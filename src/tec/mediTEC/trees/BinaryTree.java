@@ -1,9 +1,8 @@
 package tec.mediTEC.trees;
 
-import tec.mediTEC.medicResources.casoClinico;
 
-public class BinaryTree {
-	protected Node<casoClinico> root;
+public class BinaryTree<T extends Comparable<T>>{
+	protected Node<T> root;
 	
 	//Constructor
 	public BinaryTree(){
@@ -18,29 +17,24 @@ public class BinaryTree {
 		}
 	}
 	
-	public Node<casoClinico> getRoot() {
+	public Node<T> getRoot() {
 		return root;
 	}
 
-	public void setRoot(Node<casoClinico> root) {
+	public void setRoot(Node<T> root) {
 		this.root = root;
-	}
-
-	//Raiz
-	public Node<casoClinico> obtenerRoot(){
-		return root;
 	}
 	
 	//Insertar en un árbol binario
-	public void insert(casoClinico element){
+	public void insert(T element){
 		this.root = this.insert(element, this.root);
 	}
-	private Node<casoClinico> insert(casoClinico element, Node<casoClinico> current){
+	private Node<T> insert(T element, Node<T> current){
 		if (current == null){
-			return new Node<casoClinico>(element);
-		} else if (element.getCodigo() < current.getElement().getCodigo()){
+			return new Node<T>(element);
+		} else if (element.compareTo(current.getElement())<0){
 			current.setLeft( this.insert(element, current.getLeft()));
-		}else if (element.getCodigo() > current.getElement().getCodigo()){
+		}else if (element.compareTo(current.getElement())>0){
 			current.setRight(this.insert(element, current.getRight()));
 		}
 		return current;
@@ -48,15 +42,15 @@ public class BinaryTree {
 	
 	
 	//Buscar en un árbol binario
-	public casoClinico search(int id){
+	public T search(T id){
 		return this.search(id, this.root);
 	}
-	private casoClinico search(int id, Node<casoClinico> node){
+	private T search(T id, Node<T> node){
 		if (node==null){
 			return null;
-		} else if (id < node.getElement().getCodigo()){
+		} else if (id.compareTo(node.getElement())<0){
 			return search(id, node.getLeft());
-		} else if (id > node.getElement().getCodigo()){
+		} else if (id.compareTo(node.getElement())>0){
 			return search(id, node.getRight());	
 		} else{
 			return node.getElement();
@@ -64,10 +58,10 @@ public class BinaryTree {
 	}
 	
 	//Buscar menor
-	public Node<casoClinico> findMin(){
+	public Node<T> findMin(){
 		return findMin(this.root);
 	}
-	private Node<casoClinico> findMin(Node<casoClinico> node){
+	private Node<T> findMin(Node<T> node){
 		if(node == null){
 			return null;
 		} else if (node.getLeft() == null){
@@ -78,26 +72,26 @@ public class BinaryTree {
 	}
 
 	//Eliminar en un árbol binario
-	public void remove(int element){
+	public void remove(T element){
 		this.root = remove(element, this.root);
 	}
-	private Node<casoClinico> remove(int element, Node<casoClinico> node){
+	private Node<T> remove(T element, Node<T> node){
 		if (node == null){
 			return node;
-		} else if (element < node.getElement().getCodigo()){
+		} else if (element.compareTo(node.getElement()) < 0){
 			node.setLeft(remove(element,node.getLeft()));
-		} else if (element > node.getElement().getCodigo()) {
+		} else if (element.compareTo(node.getElement()) > 0) {
 			node.setRight(remove(element, node.getRight()));
 		} else if (node.getLeft() != null && node.getRight() != null){
 			node.setElement(findMin(node.getRight()).getElement());
-			node.setRight(remove(node.getElement().getCodigo(), node.getRight()));
+			node.setRight(remove(node.getElement(), node.getRight()));
 		} else{
 			node = node.getLeft() != null ? node.getLeft(): node.getRight();	
 		}
 		return node;
 	}
 	
-	//métodos para probar el arbol
+	/*//métodos para probar el arbol
 	public void inOrden(Node<casoClinico> n){
 		if (n != null){
 			inOrden (n.getLeft());
@@ -120,6 +114,6 @@ public class BinaryTree {
 			postOrden(n.getRight());
 			System.out.println(n.getElement() + ", ");
 		}
-	}
+	}*/
 }
 

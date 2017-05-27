@@ -13,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.ws.http.HTTPException;
 
 import tec.mediTEC.medicResources.cita;
 import tec.mediTEC.usuarios.Doctor;
@@ -62,13 +61,14 @@ public class Doc {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response newDoctor(Doctor nuevo){
 		if (nuevo == null){
 			return Response.noContent().build();
 		}else{
 			nuevo.enviarCorreo(nuevo.getCorreo());
 			doctores.add(nuevo);
-			return Response.status(201).build();
+			return Response.status(201).entity("{\"id\":"+nuevo.getCodigo()	+"}").build();
 		}
 	}
 	
@@ -123,6 +123,19 @@ public class Doc {
 		}else{
 			return Response.noContent().build();
 		}
+	}
+	
+	@DELETE
+	@Path("/citas/{id}/{cit}")
+	public Response removeCita(@PathParam("id") int id, @PathParam("cit") int cit){
+		Doctor doc = this.findDoc(id);
+		if(doc != null){
+			doc.getCitas().remove(cit);
+			return Response.status(410).build();
+		}else{
+			return Response.noContent().build();
+		}
+		
 	}
 	
 	private Doctor findDoc(int id){

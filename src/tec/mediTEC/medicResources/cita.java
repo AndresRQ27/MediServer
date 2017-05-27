@@ -3,21 +3,23 @@ package tec.mediTEC.medicResources;
 import java.util.ArrayList;
 import java.util.List;
 
+import tec.mediTEC.trees.AVLTree;
 import tec.mediTEC.usuarios.Registro;
 
 public class cita extends Registro{
 	private String paciente;
+	private String fecha;
 	private int codigo;
 	private int cosTotal = 0;
 	private boolean finalizado = false;
 	private static List<String> sintomas;
-	private static List<casoClinico> casosClinicos;
+	private static AVLTree casosClinicos;
 	private static List<examen> examenes;
 	private static List<medic> medicamentos;
 	
 	public cita(){
 		this.codigo = super.numRandom();
-		casosClinicos = new ArrayList<>();
+		casosClinicos = new AVLTree();
 		examenes = new ArrayList<>();
 		medicamentos = new ArrayList<>();
 	}
@@ -38,11 +40,12 @@ public class cita extends Registro{
 		cita.sintomas = sintomas;
 	}
 
-	public  List<casoClinico> getCasosClinicos() {
+
+	public  AVLTree getCasosClinicos() {
 		return casosClinicos;
 	}
 
-	public  void setCasosClinicos(List<casoClinico> casosClinicos) {
+	public void setCasosClinicos(AVLTree casosClinicos) {
 		cita.casosClinicos = casosClinicos;
 	}
 
@@ -84,6 +87,14 @@ public class cita extends Registro{
 
 	public void setFinalizado(boolean finalizado) {
 		this.finalizado = finalizado;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 	
 	

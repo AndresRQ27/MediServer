@@ -19,7 +19,7 @@ import tec.mediTEC.trees.BinaryTree;
 @Path("/CasosClinicos")
 public class casCli {
 	
-	private static BinaryTree casosClinicos = new BinaryTree();
+	private static BinaryTree<casoClinico> casosClinicos = new BinaryTree<casoClinico>();
 	
 	public casCli(){
 	}
@@ -29,8 +29,7 @@ public class casCli {
 	public Response getCasos(){
 		if(casosClinicos.isEmpty()){
 			return  Response.noContent().build();
-		}else{
-			
+		}else{			
 			return Response.ok().entity(casosClinicos).build();
 		}
 	}
@@ -38,8 +37,8 @@ public class casCli {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCaso(@PathParam("id") int id){
-		casoClinico caso = casosClinicos.search(id);
+	public Response getCaso(@PathParam("id") String id){
+		casoClinico caso = casosClinicos.search(new casoClinico(id));
 		if(caso != null){
 			return Response.ok().entity(caso).build();
 		}else{
@@ -61,8 +60,8 @@ public class casCli {
 	@POST
 	@Path("/examenes/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response newExamen(@PathParam("id") int id, examen nuevo){
-		casoClinico caso = casosClinicos.search(id);
+	public Response newExamen(@PathParam("id") String id, examen nuevo){
+		casoClinico caso = casosClinicos.search(new casoClinico(id));
 		if(caso != null){
 			caso.getExamenes().add(nuevo);
 			return Response.status(201).build();
@@ -75,8 +74,8 @@ public class casCli {
 	@POST
 	@Path("/medicamentos/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response newMedicamento(@PathParam("id") int id, medic nuevo){
-		casoClinico caso = casosClinicos.search(id);
+	public Response newMedicamento(@PathParam("id") String id, medic nuevo){
+		casoClinico caso = casosClinicos.search(new casoClinico(id));
 		if(caso != null){
 			caso.getMedicamentos().add(nuevo);
 			return Response.status(201).build();
@@ -89,8 +88,8 @@ public class casCli {
 	@PUT
 	@Path("/nombre/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateNombre(@PathParam("id") int id, String nombre){
-		casoClinico caso = casosClinicos.search(id);
+	public Response updateNombre(@PathParam("id") String id, String nombre){
+		casoClinico caso = casosClinicos.search(new casoClinico(id));
 		if(caso != null){
 			caso.setNombre(nombre);
 			return Response.status(201).build();
@@ -102,16 +101,16 @@ public class casCli {
 	
 	@DELETE
 	@Path("{id}")
-	public Response remove(@PathParam("id") int id){
-		casoClinico caso = casosClinicos.search(id);
+	public Response remove(@PathParam("id") String id){
+		casoClinico caso = casosClinicos.search(new casoClinico(id));
 		if(caso != null){
-			casosClinicos.remove(id);
+			casosClinicos.remove(caso);
 			return Response.status(410).build();
 		}else{
 			return Response.noContent().build();
 		}
 		
 	}
-
+	
 
 }
