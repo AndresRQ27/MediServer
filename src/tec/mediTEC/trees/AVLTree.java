@@ -2,29 +2,27 @@ package tec.mediTEC.trees;
 
 import java.util.*;
 
-import tec.mediTEC.medicResources.cita;
 
-
-public class AVLTree{
+public class AVLTree<T extends Comparable<T>>{
 	//Nodo raiz del arbol.
-    private Node<cita> root;
+    private Node<T> root;
     //Comparador.
-    Comparator<Integer> comparator;
+    Comparator<T> comparator;
     
 
     public AVLTree(){	
     }
 
-    public AVLTree(Comparator<Integer> cmp){	
+    public AVLTree(Comparator<T> cmp){	
     	this.comparator = cmp;
     }
 
     //Insertar en el árbol
-    public boolean insert(cita e) throws ClassCastException, NullPointerException, IllegalStateException{
-    	Node<cita> node = new Node<cita>(e);
+    public boolean insert(T e) throws ClassCastException, NullPointerException, IllegalStateException{
+    	Node<T> node = new Node<T>(e);
     	boolean exit = false;
     	boolean der = false;
-    	Node<cita> tmpRoot = this.getRoot();
+    	Node<T> tmpRoot = this.getRoot();
 
     	int leftHeight, rightHeight;
 
@@ -35,7 +33,7 @@ public class AVLTree{
     	}else
     	
     	//estaba ya en el arbol?
-    	if(this.contains(node.getElement().getCodigo())){
+    	if(this.contains(node.getElement())){
     		return false;
     	}
     	
@@ -44,7 +42,7 @@ public class AVLTree{
     		while(!exit){
 
     			//es mayor el nodo a insertar que la raiz?    				
-		    	if(this.comparateElement(node.getElement().getCodigo(), tmpRoot.getElement().getCodigo())>0){
+		    	if(this.comparateElement(node.getElement(), tmpRoot.getElement())>0){
 		    		if(tmpRoot.getRight()!=null){
 		    			tmpRoot = tmpRoot.getRight();	
 		    		}else{
@@ -89,15 +87,15 @@ public class AVLTree{
 	    			leftHeight = tmpRoot.getLeft().getHeight();
 	    		}
 	    		
-    			Node<cita> change = estructure(tmpRoot, leftHeight, rightHeight);
-    			Node<cita> superior = father(tmpRoot);
+    			Node<T> change = estructure(tmpRoot, leftHeight, rightHeight);
+    			Node<T> superior = father(tmpRoot);
 	
     			//si los nodos modificados tenian un padre anteriormente
-    			if(comparateElement(superior.getElement().getCodigo(), tmpRoot.getElement().getCodigo())!=0){
-    				if(superior.getLeft()!=null && comparateElement(superior.getLeft().getElement().getCodigo(), tmpRoot.getElement().getCodigo())==0){
+    			if(comparateElement(superior.getElement(), tmpRoot.getElement())!=0){
+    				if(superior.getLeft()!=null && comparateElement(superior.getLeft().getElement(), tmpRoot.getElement())==0){
 	    				superior.setLeft(change);		
 		    		}
-		    		else if(superior.getRight()!=null && comparateElement(superior.getRight().getElement().getCodigo(), tmpRoot.getElement().getCodigo())==0){
+		    		else if(superior.getRight()!=null && comparateElement(superior.getRight().getElement(), tmpRoot.getElement())==0){
 	    				superior.setRight(change);
 	    			}
     			}else{
@@ -109,7 +107,7 @@ public class AVLTree{
     }
     
 
-    private Node<cita> estructure(Node<cita> node, int leftHeight, int rightHeight){
+    private Node<T> estructure(Node<T> node, int leftHeight, int rightHeight){
 		if(extractBalanceF(node)==2){
 			if( extractBalanceF(node.getRight() )==1  || extractBalanceF(node.getRight()) == 0){
 				node = leftRotation(node);
@@ -133,7 +131,7 @@ public class AVLTree{
     }
     
     //Extrae el Factor de Balance
-    public int extractBalanceF(Node<cita> node){
+    public int extractBalanceF(Node<T> node){
     	if(node!=null){
     		return node.getBalanceF();
     	}else{
@@ -142,8 +140,8 @@ public class AVLTree{
     }
 
 	//Rotación simple a la izquierda
-    public Node<cita> leftRotation(Node<cita> node){
-		Node<cita> nodoTmp = node;
+    public Node<T> leftRotation(Node<T> node){
+		Node<T> nodoTmp = node;
     	node = nodoTmp.getRight(); 
 		nodoTmp.setRight(node.getLeft());
 		node.setLeft(nodoTmp);
@@ -152,8 +150,8 @@ public class AVLTree{
     }
 
 	//Rotación simple a la derecha
-    public Node<cita> rightRotation(Node<cita> node){
-    	Node<cita> nodeTmp = node;
+    public Node<T> rightRotation(Node<T> node){
+    	Node<T> nodeTmp = node;
     	node = nodeTmp.getLeft();
 		nodeTmp.setLeft(node.getRight());
 		node.setRight(nodeTmp);
@@ -162,8 +160,8 @@ public class AVLTree{
     }
 
 	//Rotación compuesta izquierda - derecha
-    public Node<cita> leftComposedRotation(Node<cita> node){
-    	Node<cita> nodeTmp = node; 
+    public Node<T> leftComposedRotation(Node<T> node){
+    	Node<T> nodeTmp = node; 
         nodeTmp = leftRotation(nodeTmp.getLeft()); 
 		node.setLeft(nodeTmp);
 		nodeTmp = rightRotation(node); 
@@ -172,8 +170,8 @@ public class AVLTree{
     }
 
 	//Rotación compuesta derecha - izquierda
-    public Node<cita> rightComposedRotation(Node<cita> node){
-    	Node<cita> nodeTmp = node;
+    public Node<T> rightComposedRotation(Node<T> node){
+    	Node<T> nodeTmp = node;
         nodeTmp = rightRotation(nodeTmp.getRight());
 		node.setRight(nodeTmp);
 		nodeTmp= leftRotation(node);
@@ -182,7 +180,7 @@ public class AVLTree{
     }
 
 	//Indica si esta equilibrado, la altura si esta equilibrado, y -1 si no 
-	public int balanced(Node<cita> n){
+	public int balanced(Node<T> n){
 		int leftH = 0;
 		int rightH = 0;
 		
@@ -212,22 +210,22 @@ public class AVLTree{
 	}
 	
 	//Obtiene el nodo padre
-	public Node<cita> father(Node<cita> nodo){
-		Node<cita> tmpRoot = this.getRoot();
-		Stack<Node<cita>> pila = new Stack<Node<cita>>();
+	public Node<T> father(Node<T> nodo){
+		Node<T> tmpRoot = this.getRoot();
+		Stack<Node<T>> pila = new Stack<Node<T>>();
     	pila.push(tmpRoot);	
     	while(tmpRoot.getRight()!=null || tmpRoot.getLeft()!=null){
-	    	if(this.comparateElement(nodo.getElement().getCodigo(), tmpRoot.getElement().getCodigo())>0){
+	    	if(this.comparateElement(nodo.getElement(), tmpRoot.getElement())>0){
 	    		if(tmpRoot.getRight()!=null){   	
 	    			tmpRoot = tmpRoot.getRight();
 	    		}
 	    	}
-	    	else if(this.comparateElement(nodo.getElement().getCodigo(), tmpRoot.getElement().getCodigo())<0){	
+	    	else if(this.comparateElement(nodo.getElement(), tmpRoot.getElement())<0){	
 	    		if(tmpRoot.getLeft()!=null){   
 		    		tmpRoot = tmpRoot.getLeft();
 	    		}
 	    	}
-	    	if(this.comparateElement(nodo.getElement().getCodigo(), tmpRoot.getElement().getCodigo())==0){
+	    	if(this.comparateElement(nodo.getElement(), tmpRoot.getElement())==0){
 	    		return pila.pop();
 	    	}
 
@@ -237,16 +235,16 @@ public class AVLTree{
 	}
 	
 	//Buscar en un árbol binario
-		public boolean search(int element){
+		public boolean search(T element){
 			return this.search(element, this.root);
 		}
 
-		private boolean search(int element, Node<cita> node){
+		private boolean search(T element, Node<T> node){
 			if (node==null){
 				return false;
-			} else if (element < node.getElement().getCodigo()){
+			} else if (element.compareTo(node.getElement()) < 0){
 				return search(element, node.getLeft());
-			} else if (element > node.getElement().getCodigo()){
+			} else if (element.compareTo(node.getElement()) > 0){
 				return search(element, node.getRight());	
 			} else{
 				return true;
@@ -256,25 +254,25 @@ public class AVLTree{
     
     //Buscar un nodo
     public boolean contains(Object o) throws ClassCastException, NullPointerException{
-    	Node<cita> raizTmp = this.getRoot();
+    	Node<T> raizTmp = this.getRoot();
     	if(this.isEmpty()){
     		return false;
     	}
     	
     	//si es la raiz el buscado
-    	if(this.comparateElement((int)o, raizTmp.getElement().getCodigo())==0){
+    	if(this.comparateElement((T)o, raizTmp.getElement())==0){
 	    	return true;
 	    }
 	    
     	while(raizTmp.getRight()!=null || raizTmp.getLeft()!=null){
 
-	    	if(this.comparateElement((int)o, raizTmp.getElement().getCodigo())>0){
+	    	if(this.comparateElement((T)o, raizTmp.getElement())>0){
 	    		if(raizTmp.getRight()!=null){   		
 	    			raizTmp = raizTmp.getRight();
 	    		}else{
 	    			return false;
 	    		}
-	    	}else if(this.comparateElement((int)o, raizTmp.getElement().getCodigo())<0){	
+	    	}else if(this.comparateElement((T)o, raizTmp.getElement())<0){	
 	    		if(raizTmp.getLeft()!=null){   
 		    		raizTmp = raizTmp.getLeft();
 	    		}else{
@@ -282,7 +280,7 @@ public class AVLTree{
 	    		}
 	    	}
 	    	
-	    	if(this.comparateElement((int)o, raizTmp.getElement().getCodigo())==0){
+	    	if(this.comparateElement((T)o, raizTmp.getElement())==0){
 	    		return true;
 	    	}
     	}
@@ -299,9 +297,9 @@ public class AVLTree{
     
     //Eliminar objeto en el árbol AVL
     public boolean remove(Object o) throws ClassCastException, NullPointerException{
-    	Node<cita> borrar=null,mirar=null,change=null, nPadre = null;
-    	Node<cita> tmpRoot = this.getRoot();
-    	cita c_aux, d_aux;
+    	Node<T> borrar=null,mirar=null,change=null, nPadre = null;
+    	Node<T> tmpRoot = this.getRoot();
+    	T c_aux, d_aux;
     	boolean exit = false;
     	int rightHeight = 0;
     	int leftHeight = 0;
@@ -312,7 +310,7 @@ public class AVLTree{
     	}
 
     	//el nodo a borrar es la raiz?
-    	if(this.comparateElement((int)o, tmpRoot.getElement().getCodigo())==0){
+    	if(this.comparateElement((T)o, tmpRoot.getElement())==0){
 	    	exit = true;
 	    	borrar = tmpRoot;
 	    }
@@ -320,13 +318,13 @@ public class AVLTree{
     	//si no es la raiz, lo buscamos
     	while(!exit && (tmpRoot.getRight()!=null || tmpRoot.getLeft()!=null)){
 
-	    	if(this.comparateElement((int)o, tmpRoot.getElement().getCodigo())>0){
+	    	if(this.comparateElement((T)o, tmpRoot.getElement())>0){
 	    		if(tmpRoot.getRight()!=null){   		
 	    			tmpRoot = tmpRoot.getRight();
 	    		}else{
 	    			return false;
 	    		}
-	    	}else if(this.comparateElement((int)o, tmpRoot.getElement().getCodigo())<0){
+	    	}else if(this.comparateElement((T)o, tmpRoot.getElement())<0){
 	    	
 	    		if(tmpRoot.getLeft()!=null){   
 		    		tmpRoot = tmpRoot.getLeft();
@@ -335,7 +333,7 @@ public class AVLTree{
 	    		}
 	    	}
 	    	
-	    	if(this.comparateElement((int)o, tmpRoot.getElement().getCodigo())==0){
+	    	if(this.comparateElement((T)o, tmpRoot.getElement())==0){
 	    		exit = true;
 	    		borrar = tmpRoot;
 	    	}
@@ -356,9 +354,9 @@ public class AVLTree{
 	    			this.root = null;
 	    		}
 	    		
-	    		if(nPadre.getLeft()!=null && comparateElement(nPadre.getLeft().getElement().getCodigo(), borrar.getElement().getCodigo())==0){
+	    		if(nPadre.getLeft()!=null && comparateElement(nPadre.getLeft().getElement(), borrar.getElement())==0){
 	    			nPadre.setLeft(null);
-	    		}else if(nPadre.getRight()!=null && comparateElement(nPadre.getRight().getElement().getCodigo(), borrar.getElement().getCodigo())==0){
+	    		}else if(nPadre.getRight()!=null && comparateElement(nPadre.getRight().getElement(), borrar.getElement())==0){
 	    			nPadre.setRight(null);
 	    		}
 	    		//nos lo cargamos
@@ -401,7 +399,7 @@ public class AVLTree{
 		    	}
 	    	
 		    	c_aux = change.getElement();
-		    	Node<cita> father = father(change);
+		    	Node<T> father = father(change);
 		    	
 		    	//si el nodo que hemos cambiado se ha quedado con algún hijo...
 		    	if(change.getLeft()!=null || change.getRight()!=null){
@@ -415,7 +413,7 @@ public class AVLTree{
 		    	}
 		    	//si no tiene hijos ya, lo eliminamos sin más
 		    	else{		    	
-			    	if(father.getLeft()!=null && comparateElement(father.getLeft().getElement().getCodigo(), change.getElement().getCodigo())==0){
+			    	if(father.getLeft()!=null && comparateElement(father.getLeft().getElement(), change.getElement())==0){
 			    		father.setLeft(null);
 			    	}else{
 			    		father.setRight(null);
@@ -438,15 +436,15 @@ public class AVLTree{
 	    			leftHeight = mirar.getLeft().getHeight();
 	    		}
 	    		
-    			Node<cita> cambiar2 = estructure(mirar, leftHeight, rightHeight);
-    			Node<cita> superior = father(mirar);
+    			Node<T> cambiar2 = estructure(mirar, leftHeight, rightHeight);
+    			Node<T> superior = father(mirar);
     			
     			//si los nodos modificados tenian un padre anteriormente
-    			if(comparateElement(superior.getElement().getCodigo(), mirar.getElement().getCodigo())!=0){
-    				if(superior.getLeft()!=null && comparateElement(superior.getLeft().getElement().getCodigo(), mirar.getElement().getCodigo())==0){
+    			if(comparateElement(superior.getElement(), mirar.getElement())!=0){
+    				if(superior.getLeft()!=null && comparateElement(superior.getLeft().getElement(), mirar.getElement())==0){
 	    				superior.setLeft(cambiar2);		
 		    		}
-		    		else if(superior.getRight()!=null && comparateElement(superior.getRight().getElement().getCodigo(), mirar.getElement().getCodigo())==0){
+		    		else if(superior.getRight()!=null && comparateElement(superior.getRight().getElement(), mirar.getElement())==0){
 	    				superior.setRight(cambiar2);
 	    			}
     			}else{
@@ -467,10 +465,10 @@ public class AVLTree{
     }
 
     //Imprime el árbol en orden
-    public List<cita> inOrden(){
-		List<cita> list = new ArrayList<cita>();
-    	Node<cita> node = this.getRoot();  	
-    	Stack<Node<cita>> pila = new Stack<Node<cita>>();
+    public List<T> inOrden(){
+		List<T> list = new ArrayList<T>();
+    	Node<T> node = this.getRoot();  	
+    	Stack<Node<T>> pila = new Stack<Node<T>>();
      	
      	while((node!=null &&node.getElement()!=null)|| !pila.empty()){
      		if(node!=null){
@@ -488,10 +486,10 @@ public class AVLTree{
     
     
     //Imprime en orden primero raíz, despues izquierda y despues derecha
-    public List<cita> preOrden(){
-    	List<cita> list = new ArrayList<cita>();
-    	Node<cita> node = this.getRoot();  	
-    	Stack<Node<cita>> pila = new Stack<Node<cita>>();
+    public List<T> preOrden(){
+    	List<T> list = new ArrayList<T>();
+    	Node<T> node = this.getRoot();  	
+    	Stack<Node<T>> pila = new Stack<Node<T>>();
 
      	while((node!=null && node.getElement()!=null) || !pila.empty()){
      		if(node!=null){
@@ -509,10 +507,10 @@ public class AVLTree{
     
 
     //Imprime en orden primero izquierdo, despues derecho y despues raíz
-    public List<cita> postOrden(){
-    	List<cita> list = new ArrayList<cita>();
-    	Node<cita> node = this.getRoot();  	
-    	Stack<Node<cita>> pila1 = new Stack<Node<cita>>();
+    public List<T> postOrden(){
+    	List<T> list = new ArrayList<T>();
+    	Node<T> node = this.getRoot();  	
+    	Stack<Node<T>> pila1 = new Stack<Node<T>>();
     	Stack<Boolean> pila2 = new Stack<Boolean>();
     	
     	while((node!=null && node.getElement()!=null) || !pila1.empty()){
@@ -538,35 +536,37 @@ public class AVLTree{
     }
     
     //Devuelve la altura del nodo, sino esta en el árbol devuelve -1
-    public int altura(Integer dato){
-    	Node<cita> nodo = this.getNode(dato);
+    public int altura(T dato){
+    	Node<T> node = this.getNode(dato);
     	if(!this.contains(dato)){
     		return -1;
     	}
     	
-    	return nodo.getHeight();
+    	return node.getHeight();
     }
 
     //Devuelve la profundidad del nodo, si no está en el árbol devurlve -1
-    public int profundidad(cita element){
-    	Node<cita> node = new Node<cita>(element);
+    public int profundidad(T element){
+    	Node<T> node = new Node<T>(element);
     	int profundidad = 0;
-    	while(comparateElement(node.getElement().getCodigo(), this.getRoot().getElement().getCodigo())!=0){
+    	while(comparateElement(node.getElement(), this.getRoot().getElement())!=0){
     		profundidad++;
     		node = father(node);
+
     	}
     	
     	return profundidad;
+    
     }
     
     //Devuelve el nodo raíz del árbol
-    public Node<cita> getRoot(){
+    public Node<T> getRoot(){
     	return this.root;
     }
     
     //Devuelve el nodo del elemento ingresado
-    public Node<cita> getNode(int dato){
-     	Node<cita> tmpRoot = this.getRoot();
+    public Node<T> getNode(T dato){
+     	Node<T> tmpRoot = this.getRoot();
      	
      	if(this.isEmpty()){
      		return null;
@@ -574,13 +574,13 @@ public class AVLTree{
     	
    		while(tmpRoot.getRight()!=null || tmpRoot.getLeft()!=null){
 
-	    	if(this.comparateElement(dato, tmpRoot.getElement().getCodigo())>0){
+	    	if(this.comparateElement(dato, tmpRoot.getElement())>0){
 	    		if(tmpRoot.getRight()!=null){   		
 	    			tmpRoot = tmpRoot.getRight();
 	    		}else{
 	    			return null;
 	    		}
-	    	}else if(this.comparateElement(dato, tmpRoot.getElement().getCodigo())<0){	
+	    	}else if(this.comparateElement(dato, tmpRoot.getElement())<0){	
 	    		if(tmpRoot.getLeft()!=null){   
 		    		tmpRoot = tmpRoot.getLeft();
 	    		}else{
@@ -588,7 +588,7 @@ public class AVLTree{
 	    		}
 	    	}
 	    	
-	    	if(this.comparateElement(dato, tmpRoot.getElement().getCodigo())==0){
+	    	if(this.comparateElement(dato, tmpRoot.getElement())==0){
 	    		return tmpRoot;
 	    	}
     	}
@@ -597,17 +597,17 @@ public class AVLTree{
     }
     
     //Devuleve el comparador que utiliza el árbol
-    private Comparator<Integer> getComparator(){
+    private Comparator<T> getComparator(){
     	return this.comparator;
     }
     
     //Extrae el dato de un nodo
-    public cita extraeDato(Node<cita> node){
+    public T extraeDato(Node<T> node){
     	return node.getElement();
     }
     
     //Compara dos elementos
-    private int comparateElement(Integer t1, Integer t2){
+    public int comparateElement(T t1, T t2){
     	if(this.comparator==null){
     		return ((Comparable)t1).compareTo(t2);
     	}else{

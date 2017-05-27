@@ -1,5 +1,7 @@
 package tec.mediTEC;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,6 +22,8 @@ import tec.mediTEC.trees.BinaryTree;
 public class casCli {
 	
 	private static BinaryTree<casoClinico> casosClinicos = new BinaryTree<casoClinico>();
+	private static ArrayList<medic> medics = new ArrayList<medic>();
+	
 	
 	public casCli(){
 	}
@@ -92,6 +96,20 @@ public class casCli {
 		casoClinico caso = casosClinicos.search(new casoClinico(id));
 		if(caso != null){
 			caso.setNombre(nombre);
+			return Response.status(201).build();
+		}else{
+			return Response.noContent().build();
+		}
+		
+	}
+	
+	@PUT
+	@Path("/medicamentos/{id}")
+	public Response updateMedics(@PathParam("id") String id, medic nuevo){
+		casoClinico caso = casosClinicos.search(new casoClinico(id));
+		medics.add(nuevo);
+		if(caso != null){
+			caso.setMedicamentos(medics);
 			return Response.status(201).build();
 		}else{
 			return Response.noContent().build();

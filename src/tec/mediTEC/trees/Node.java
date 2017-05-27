@@ -1,20 +1,26 @@
 package tec.mediTEC.trees;
+import javax.swing.JOptionPane;
+
+
 
 public class Node<T> {
-	private T element;
+	//CasoClínico caso;
+	private T Element;
 	private int balanceF;
 	private Node<T> left;
 	private Node<T> right;
+	private Node<T> father;
 	
 	
 	public Node(T element){
-		this(element, null, null);
+		this(element, null, null, null);
 	}
-	private Node(T element, Node<T> left, Node<T> right){
-		this.element = element;
+	private Node(T element, Node<T> left, Node<T> right, Node<T> father){
+		this.Element = element;
 		this.balanceF = 0;
 		this.right = right;
 		this.left = left;
+		this.father = father;
 		
 	}
 	//Gets
@@ -25,15 +31,16 @@ public class Node<T> {
 	public Node<T> getRight(){
 		return right;
 	}
-
+	
+	public Node<T> getFather(){
+		return father;
+	}
 	public T getElement(){
-		return element;
+		return Element;
 	}
 	
 	
-	public void setGetElement(T getElement) {
-		this.element = getElement;
-	}
+	
 	//Sets
 	public void setRight(Node<T> right){
 		this.right = right;
@@ -44,9 +51,12 @@ public class Node<T> {
 		this.left = left;
 	}
 	
-
+	public void setFather(Node<T> father){
+		this.father = father;
+	}
+	
 	public void setElement(T element){
-		this.element = element;
+		this.Element = element;
 	}
 	
 	
@@ -88,5 +98,32 @@ public class Node<T> {
     	}
     	return Math.max(leftH, rightH) + 1;
 	}
+	
+	
+	
+
+	public static void main(String[] args){
+		
+		BinaryTree<Integer> tree = new BinaryTree();
+		
+		tree.insert(10);
+		tree.insert(5);
+		tree.insert(13);
+		tree.insert(1);
+		tree.insert(6);
+		tree.insert(17);
+		tree.insert(16);
+		//tree.remove(10);
+		//tree.remove(5);
+		//tree.remove(6);
+		System.out.println(tree.route(17));
+		
+		tree.postOrden(tree.getRoot()); //Binario
+		//tree.postOrden(tree.getRoot()); //Splay
+		//System.out.println(tree.postOrden()); //AVL
+		
+		
+	
+	}		
 
 }
